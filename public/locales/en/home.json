@@ -1,0 +1,16 @@
+{
+  "title": "War Cost Counter",
+  "description": "This page displays an estimate of Russia’s war costs, the number of missiles and drones launched against Ukraine, and what could have been built instead. The numbers update automatically.",
+  "cost": {
+    "title": "Estimated Cost"
+  },
+  "weapons": {
+    "title": "Missiles/Drones"
+  },
+  "alternative": {
+    "title": "Built Instead",
+    "schools": "Schools: {{count}}",
+    "hospitals": "Hospitals: {{count}}",
+    "homes": "Homes: {{count}}"
+  }
+}
