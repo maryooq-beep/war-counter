@@ -243,13 +243,19 @@ a {
 }
 
 .counter-value {
+  display: inline-block;
+  min-width: min(17ch, 100%);
   margin-top: 14px;
   color: var(--gold-bright);
   font-family: Georgia, "Times New Roman", serif;
   font-size: clamp(58px, 8vw, 100px);
+  font-variant-numeric: tabular-nums;
+  font-feature-settings: "tnum" 1;
   line-height: 1;
   letter-spacing: -0.045em;
+  text-align: center;
   text-shadow: 0 0 28px rgba(217, 179, 106, 0.12);
+  white-space: nowrap;
 }
 
 .counter-meta {

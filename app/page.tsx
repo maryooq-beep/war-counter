@@ -21,6 +21,7 @@ const CONFIG = {
   baseAmountUsd: 602_620_000_000,
   baseDateIso: "2026-06-22T22:00:00.000Z",
   estimatedUsdPerSecond: 7_250,
+  visualUpdateMs: 1250,
   deathsEstimate: 280_155,
   launchedEstimate: 18_547,
   schoolEquivalentCost: 24_730_000,
@@ -270,20 +271,18 @@ export default function Home() {
     const savedVote = window.localStorage.getItem("war-counter-vote");
     if (savedVote) setSelected(savedVote);
 
-    let animationFrame = 0;
-
     const tick = () => {
       const baseTime = new Date(CONFIG.baseDateIso).getTime();
       const secondsPassed = Math.max(0, (Date.now() - baseTime) / 1000);
       setAmount(
         CONFIG.baseAmountUsd + secondsPassed * CONFIG.estimatedUsdPerSecond
       );
-      animationFrame = requestAnimationFrame(tick);
     };
 
     tick();
+    const intervalId = window.setInterval(tick, CONFIG.visualUpdateMs);
 
-    return () => cancelAnimationFrame(animationFrame);
+    return () => window.clearInterval(intervalId);
   }, []);
 
   const builtInstead = useMemo(() => {
