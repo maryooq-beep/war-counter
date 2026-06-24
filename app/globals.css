@@ -3089,6 +3089,14 @@ html[data-lang="ua"] :where(.counter-value, .stat-card strong, .built-number, .e
     padding-right: 18px;
   }
 
+  .stat-card-deaths .deaths-candle-image {
+    transform: translateX(12%) scale(1);
+  }
+
+  .stat-card-deaths .deaths-candle-image:hover {
+    transform: translateX(12%) scale(1.08);
+  }
+
   .stat-card-deaths h2,
   .stat-card-launched h2 {
     font-size: clamp(14px, 4.4vw, 16px);
