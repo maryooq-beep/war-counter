@@ -552,7 +552,7 @@ export default function Home() {
     }
   }
 
-  async function handleSubmit(event: FormEvent<HTMLFormElement>) {
+  function handleSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
     if (submitState !== "idle") return;
 
@@ -568,32 +568,30 @@ export default function Home() {
       JSON.stringify([trimmedIdea, ...existing])
     );
 
-    setSubmitState("submitting");
     setIdeaSaved(true);
+    setSubmitState("success");
+    setIdea("");
 
-    try {
-      const response = await fetch("/api/ideas", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          idea: trimmedIdea,
-          selectedVote: selected ?? undefined,
-          createdAt: new Date().toISOString(),
-          page: "war-counter",
-        }),
+    void fetch("/api/ideas", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        idea: trimmedIdea,
+        selectedVote: selected ?? undefined,
+        createdAt: new Date().toISOString(),
+        page: "war-counter",
+      }),
+    })
+      .then(async (response) => {
+        if (!response.ok) {
+          console.warn("Idea submission email could not be sent:", await response.text());
+        }
+      })
+      .catch((error) => {
+        console.warn("Idea submission email could not be sent:", error);
       });
-
-      if (!response.ok) {
-        console.warn("Idea submission email could not be sent:", await response.text());
-      }
-    } catch (error) {
-      console.warn("Idea submission email could not be sent:", error);
-    } finally {
-      setSubmitState("success");
-      setIdea("");
-    }
   }
 
   async function handleFooterSubscribe(event: FormEvent<HTMLFormElement>) {
