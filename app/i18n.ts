@@ -163,7 +163,8 @@ export const COPY: Record<Lang, HomeCopy> = {
     choose: "Choose one alternative to support.",
     selectOne:
       "Please select only one option above. Your vote helps show what matters most.",
-    votePrivacy: "Your vote is anonymous.",
+    votePrivacy:
+      "Your vote is anonymous. We only store total vote counts, not personal data.",
     voteStatsAria: "Vote statistics",
     peopleVoted: "people voted anonymously",
     recyclingVoteLabel: "Recycling",
@@ -243,7 +244,8 @@ export const COPY: Record<Lang, HomeCopy> = {
     choose: "Выберите одну альтернативу.",
     selectOne:
       "Пожалуйста, выберите только один вариант. Ваш голос помогает увидеть, что действительно важно.",
-    votePrivacy: "Ваш голос анонимен.",
+    votePrivacy:
+      "Ваш голос анонимен. Мы храним только общие счетчики голосов, а не персональные данные.",
     voteStatsAria: "Статистика голосования",
     peopleVoted: "человек проголосовали анонимно",
     recyclingVoteLabel: "Переработка отходов",
@@ -324,7 +326,8 @@ export const COPY: Record<Lang, HomeCopy> = {
     choose: "Оберіть одну альтернативу.",
     selectOne:
       "Будь ласка, оберіть лише один варіант. Ваш голос допомагає побачити, що справді важливо.",
-    votePrivacy: "Ваш голос анонімний.",
+    votePrivacy:
+      "Ваш голос анонімний. Ми зберігаємо лише загальні лічильники голосів, а не персональні дані.",
     voteStatsAria: "Статистика голосування",
     peopleVoted: "людей проголосували анонімно",
     recyclingVoteLabel: "Переробка відходів",

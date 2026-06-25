@@ -43,6 +43,19 @@ const CONFIG = {
 const USD_TO_RUB = 74.62;
 const AVERAGE_PUBLIC_FACILITY_RUB = 1_447_283_333;
 const CITY_PUBLIC_INFRASTRUCTURE_BUNDLE_RUB = 30_818_500_000;
+const VOTE_OPTIONS = ["recycling", "social", "civic"] as const;
+type VoteOption = (typeof VOTE_OPTIONS)[number];
+type VoteTotals = Record<VoteOption, number>;
+const EMPTY_VOTE_TOTALS: VoteTotals = {
+  recycling: 0,
+  social: 0,
+  civic: 0,
+};
+const DISPLAYED_VOTE_OFFSET: VoteTotals = {
+  recycling: 26,
+  social: 38,
+  civic: 14,
+};
 
 // Conservative model assumptions for the alternatives cards.
 // These are editable placeholders and can be replaced with sourced values later.
@@ -62,6 +75,31 @@ function formatNumber(value: number) {
   return new Intl.NumberFormat("en-US", {
     maximumFractionDigits: 0,
   }).format(Math.floor(value));
+}
+
+function isVoteOption(value: string): value is VoteOption {
+  return VOTE_OPTIONS.includes(value as VoteOption);
+}
+
+function normalizeVoteTotals(totals: unknown): VoteTotals {
+  if (!totals || typeof totals !== "object") return { ...EMPTY_VOTE_TOTALS };
+
+  const rawTotals = totals as Partial<Record<VoteOption, unknown>>;
+
+  return {
+    recycling:
+      typeof rawTotals.recycling === "number" && Number.isFinite(rawTotals.recycling)
+        ? Math.max(0, rawTotals.recycling)
+        : 0,
+    social:
+      typeof rawTotals.social === "number" && Number.isFinite(rawTotals.social)
+        ? Math.max(0, rawTotals.social)
+        : 0,
+    civic:
+      typeof rawTotals.civic === "number" && Number.isFinite(rawTotals.civic)
+        ? Math.max(0, rawTotals.civic)
+        : 0,
+  };
 }
 
 function getEstimatedDeaths() {
@@ -96,21 +134,18 @@ export default function Home() {
   const [dragStartX, setDragStartX] = useState<number | null>(null);
   const [dragOffsetX, setDragOffsetX] = useState(0);
   const [isDraggingSources, setIsDraggingSources] = useState(false);
-  const [selected, setSelected] = useState<string | null>(null);
+  const [selected, setSelected] = useState<VoteOption | null>(null);
   const [idea, setIdea] = useState("");
   const [ideaSaved, setIdeaSaved] = useState(false);
   const [submitState, setSubmitState] = useState<"idle" | "submitting" | "success">("idle");
   const [footerEmail, setFooterEmail] = useState("");
   const [footerSubscriptionState, setFooterSubscriptionState] =
     useState<"idle" | "submitting" | "success">("idle");
-  const [voteStats, setVoteStats] = useState<Record<string, number>>({
-    recycling: 42,
-    social: 61,
-    civic: 21,
-  });
+  const [voteStats, setVoteStats] = useState<VoteTotals>({ ...EMPTY_VOTE_TOTALS });
   const [mounted, setMounted] = useState(false);
   const [activeAttributionId, setActiveAttributionId] = useState<string | null>(null);
   const attributionTimeoutRef = useRef<number | null>(null);
+  const voteSubmittingRef = useRef(false);
   const heroRef = useRef<HTMLElement | null>(null);
   const transitionRef = useRef<HTMLElement | null>(null);
 
@@ -155,20 +190,10 @@ export default function Home() {
     setMounted(true);
 
     const savedVote = window.localStorage.getItem("war-counter-vote");
-    if (savedVote) setSelected(savedVote);
-
-    const savedVoteStats = window.localStorage.getItem("war-counter-vote-stats");
-    if (savedVoteStats) {
-      try {
-        const parsed = JSON.parse(savedVoteStats) as Record<string, number>;
-        setVoteStats((current) => ({
-          ...current,
-          ...parsed,
-        }));
-      } catch {
-        // Keep the seeded local mock tally if parsing fails.
-      }
+    if (savedVote && isVoteOption(savedVote)) {
+      setSelected(savedVote);
     }
+    window.localStorage.removeItem("war-counter-vote-stats");
 
     if (!mounted) return;
 
@@ -185,6 +210,33 @@ export default function Home() {
 
     return () => window.clearInterval(intervalId);
   }, [mounted]);
+
+  useEffect(() => {
+    let cancelled = false;
+
+    async function loadVoteTotals() {
+      try {
+        const response = await fetch("/api/votes", { cache: "no-store" });
+        if (!response.ok) {
+          console.warn("Vote totals could not be loaded:", await response.text());
+          return;
+        }
+
+        const data = (await response.json()) as { totals?: unknown };
+        if (!cancelled) {
+          setVoteStats(normalizeVoteTotals(data.totals));
+        }
+      } catch (error) {
+        console.warn("Vote totals could not be loaded:", error);
+      }
+    }
+
+    void loadVoteTotals();
+
+    return () => {
+      cancelled = true;
+    };
+  }, []);
 
   useEffect(() => {
     document.documentElement.dataset.lang = lang;
@@ -455,41 +507,56 @@ export default function Home() {
     return Math.floor((amount * USD_TO_RUB) / CIVIC_LIFE_INFRASTRUCTURE_RUB);
   }, [amount]);
 
+  const displayedVoteStats = useMemo<VoteTotals>(() => {
+    return {
+      recycling: voteStats.recycling + DISPLAYED_VOTE_OFFSET.recycling,
+      social: voteStats.social + DISPLAYED_VOTE_OFFSET.social,
+      civic: voteStats.civic + DISPLAYED_VOTE_OFFSET.civic,
+    };
+  }, [voteStats]);
+
   const voteSummary = useMemo(() => {
-    const totalVotes = alternatives.reduce(
-      (sum, item) => sum + (voteStats[item.id] ?? 0),
+    const totalVotes = VOTE_OPTIONS.reduce(
+      (sum, option) => sum + displayedVoteStats[option],
       0
     );
     const percentages = alternatives.map((item) => {
-      const count = voteStats[item.id] ?? 0;
+      const count = isVoteOption(item.id) ? displayedVoteStats[item.id] : 0;
       const percent = totalVotes > 0 ? Math.round((count / totalVotes) * 100) : 0;
       return { id: item.id, count, percent };
     });
 
     return { totalVotes, percentages };
-  }, [voteStats]);
+  }, [alternatives, displayedVoteStats]);
 
-  function handleVote(id: string) {
-    if (selected === id) return;
+  async function handleVote(id: string) {
+    if (selected || voteSubmittingRef.current || !isVoteOption(id)) return;
 
-    setVoteStats((current) => {
-      const previous = selected;
-      const next = {
-        recycling: current.recycling ?? 0,
-        social: current.social ?? 0,
-        civic: current.civic ?? 0,
-      };
+    voteSubmittingRef.current = true;
 
-      if (previous && previous !== id) {
-        next[previous as keyof typeof next] = Math.max(0, (next[previous as keyof typeof next] ?? 0) - 1);
+    try {
+      const response = await fetch("/api/votes", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ option: id }),
+      });
+
+      if (!response.ok) {
+        console.warn("Vote could not be saved:", await response.text());
+        return;
       }
 
-      next[id as keyof typeof next] = (next[id as keyof typeof next] ?? 0) + 1;
-      window.localStorage.setItem("war-counter-vote-stats", JSON.stringify(next));
-      return next;
-    });
-    setSelected(id);
-    window.localStorage.setItem("war-counter-vote", id);
+      const data = (await response.json()) as { totals?: unknown };
+      setVoteStats(normalizeVoteTotals(data.totals));
+      setSelected(id);
+      window.localStorage.setItem("war-counter-vote", id);
+    } catch (error) {
+      console.warn("Vote could not be saved:", error);
+    } finally {
+      voteSubmittingRef.current = false;
+    }
   }
 
   function activateAttribution(id: string) {
@@ -984,8 +1051,8 @@ export default function Home() {
               {formatNumber(voteSummary.totalVotes)} {t.peopleVoted}
             </p>
             <p>
-              {t.recyclingVoteLabel} {formatNumber(voteStats.recycling ?? 0)} · {t.socialVoteLabel}{" "}
-              {formatNumber(voteStats.social ?? 0)} · {t.civicVoteLabel} {formatNumber(voteStats.civic ?? 0)}
+              {t.recyclingVoteLabel} {formatNumber(displayedVoteStats.recycling)} · {t.socialVoteLabel}{" "}
+              {formatNumber(displayedVoteStats.social)} · {t.civicVoteLabel} {formatNumber(displayedVoteStats.civic)}
             </p>
             <p>
               {t.recyclingVoteLabel} {voteSummary.percentages[0]?.percent ?? 0}% · {t.socialVoteLabel}{" "}
