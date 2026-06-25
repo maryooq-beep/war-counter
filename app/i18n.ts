@@ -132,9 +132,9 @@ export const COPY: Record<Lang, HomeCopy> = {
   en: {
     project: "THE PRICE OF WAR",
     kicker: "PUBLIC ESTIMATE COUNTER",
-    title: "Russian War Counter",
+    title: "The Price of Russian War",
     subtitle:
-      "Russian War Counter is a real-time online project tracking the estimated cost of Russia’s war in Ukraine: war spending, deaths on both sides, drones and missiles launched at Ukraine, and what the same money could have built instead. It helps answer questions such as how much Russia has spent on the war, how fast the cost is growing, and what public projects could have been funded instead.",
+      "Tracking Russia’s estimated spending on the war in Ukraine — and what could have been built instead.",
     brokenEagleAlt: "Broken Russian eagle icon",
     deathsCandleAlt: "Memorial candle representing deaths on both sides",
     launchedWeaponsAlt: "Drone and missile counter icon",
@@ -215,7 +215,7 @@ export const COPY: Record<Lang, HomeCopy> = {
     kicker: "ПУБЛИЧНАЯ ОЦЕНКА",
     title: "ЦЕНА РОССИЙСКОЙ ВОЙНЫ",
     subtitle:
-      "Этот онлайн-счетчик показывает примерную стоимость войны России против Украины в реальном времени: военные расходы, погибших с обеих сторон, запущенные по Украине дроны и ракеты, а также то, что можно было бы построить на эти деньги.",
+      "Счётчик приблизительных расходов России на войну в Украине — и того, что могло быть построено вместо неё.",
     brokenEagleAlt: "Разбитый символ российского орла",
     deathsCandleAlt: "Поминальная свеча как символ погибших с обеих сторон",
     launchedWeaponsAlt: "Иконка счетчика дронов и ракет",
@@ -297,7 +297,7 @@ export const COPY: Record<Lang, HomeCopy> = {
     kicker: "ПУБЛІЧНА ОЦІНКА",
     title: "ЦІНА РОСІЙСЬКОЇ ВІЙНИ",
     subtitle:
-      "Цей онлайн-лічильник показує приблизну вартість війни Росії проти України в реальному часі: військові витрати, загиблих з обох сторін, дрони й ракети, запущені по Україні, а також те, що можна було б побудувати за ці гроші.",
+      "Лічильник орієнтовних витрат Росії на війну в Україні — і того, що могло бути збудовано натомість.",
     brokenEagleAlt: "Розбитий символ російського орла",
     deathsCandleAlt: "Поминальна свічка як символ загиблих з обох сторін",
     launchedWeaponsAlt: "Іконка лічильника дронів і ракет",
