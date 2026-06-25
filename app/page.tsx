@@ -649,7 +649,7 @@ export default function Home() {
               heroRef.current?.scrollIntoView({ behavior: "smooth", block: "start" });
             }}
           >
-            <img src="/images/main page.png" alt="" className="brand-eagle" aria-hidden="true" />
+            <img src="/images/main page.png" alt={t.brokenEagleAlt} className="brand-eagle" />
             <span>{t.project}</span>
           </a>
 
@@ -680,8 +680,8 @@ export default function Home() {
             <div className="hero-ledger">
               <div className="stat-grid">
                 <article className="stat-card stat-card-deaths">
-                  <span className="stat-icon stat-icon-image deaths-candle-image" aria-hidden="true">
-                    <img src="/images/death-candle-card.png" alt="" />
+                  <span className="stat-icon stat-icon-image deaths-candle-image">
+                    <img src="/images/death-candle-card.png" alt={t.deathsCandleAlt} />
                   </span>
                   <div>
                     <h2>
@@ -699,8 +699,8 @@ export default function Home() {
                 </article>
 
                 <article className="stat-card stat-card-launched">
-                  <span className="stat-icon stat-icon-image launched-drone-image" aria-hidden="true">
-                    <img src="/images/dron.png" alt="" />
+                  <span className="stat-icon stat-icon-image launched-drone-image">
+                    <img src="/images/dron.png" alt={t.launchedWeaponsAlt} />
                   </span>
                   <div>
                     <h2>
@@ -749,8 +749,8 @@ export default function Home() {
                     <p className="built-thesis-line built-thesis-strong">{t.builtMoreBundles}</p>
                     <p className="built-footnote">{t.builtFootnote} <span className="info-dot built-thesis-dot">i</span></p>
                   </div>
-                  <span className="built-home-wrap" aria-hidden="true">
-                    <img src="/images/home.png" alt="" className="built-home-img" />
+                  <span className="built-home-wrap">
+                    <img src="/images/home.png" alt={t.builtInsteadAlt} className="built-home-img" />
                   </span>
                 </div>
               </article>

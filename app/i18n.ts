@@ -38,6 +38,10 @@ export type HomeCopy = {
   kicker: string;
   title: string;
   subtitle: string;
+  brokenEagleAlt: string;
+  deathsCandleAlt: string;
+  launchedWeaponsAlt: string;
+  builtInsteadAlt: string;
   totalLabel: string;
   updated: string;
   deathsTitleLine1: string;
@@ -128,9 +132,13 @@ export const COPY: Record<Lang, HomeCopy> = {
   en: {
     project: "THE PRICE OF WAR",
     kicker: "PUBLIC ESTIMATE COUNTER",
-    title: "The Price of Russian War",
+    title: "Russian War Counter",
     subtitle:
-      "Tracking Russia’s estimated spending on the war in Ukraine — and what could have been built instead.",
+      "Russian War Counter is a real-time online project tracking the estimated cost of Russia’s war in Ukraine: war spending, deaths on both sides, drones and missiles launched at Ukraine, and what the same money could have built instead. It helps answer questions such as how much Russia has spent on the war, how fast the cost is growing, and what public projects could have been funded instead.",
+    brokenEagleAlt: "Broken Russian eagle icon",
+    deathsCandleAlt: "Memorial candle representing deaths on both sides",
+    launchedWeaponsAlt: "Drone and missile counter icon",
+    builtInsteadAlt: "House icon representing what Russia could have built instead",
     totalLabel: "TOTAL SPENT ON WAR",
     updated: "Updated visually in real time",
     deathsTitleLine1: "Deaths on both sides",
@@ -197,16 +205,20 @@ export const COPY: Record<Lang, HomeCopy> = {
     moneyInfo: "Connect this number to methodology and sources later.",
     submitEmailAria: "Submit email",
     copyright: "© 2026 The Price of Russian War",
-    pageTitle: "The Price of Russian War",
+    pageTitle: "Russian War Counter — Real-Time Cost of Russia’s War in Ukraine",
     pageDescription:
-      "Tracking Russia's estimated war spending and showing what could have been built instead.",
+      "A real-time online counter showing Russia’s estimated spending on the war in Ukraine, deaths, drones and missiles launched, and what this money could have built instead.",
   },
   ru: {
     project: "ЦЕНА ВОЙНЫ",
     kicker: "ПУБЛИЧНАЯ ОЦЕНКА",
     title: "ЦЕНА РОССИЙСКОЙ ВОЙНЫ",
     subtitle:
-      "Счётчик приблизительных расходов России на войну в Украине — и того, что могло быть построено вместо неё.",
+      "Этот онлайн-счетчик показывает примерную стоимость войны России против Украины в реальном времени: военные расходы, погибших с обеих сторон, запущенные по Украине дроны и ракеты, а также то, что можно было бы построить на эти деньги.",
+    brokenEagleAlt: "Разбитый символ российского орла",
+    deathsCandleAlt: "Поминальная свеча как символ погибших с обеих сторон",
+    launchedWeaponsAlt: "Иконка счетчика дронов и ракет",
+    builtInsteadAlt: "Иконка дома как символ того, что Россия могла бы построить вместо войны",
     totalLabel: "ПОТРАЧЕНО НА ВОЙНУ",
     updated: "Визуально обновляется в реальном времени",
     deathsTitleLine1: "Погибшие с обеих сторон",
@@ -283,7 +295,11 @@ export const COPY: Record<Lang, HomeCopy> = {
     kicker: "ПУБЛІЧНА ОЦІНКА",
     title: "ЦІНА РОСІЙСЬКОЇ ВІЙНИ",
     subtitle:
-      "Лічильник орієнтовних витрат Росії на війну в Україні — і того, що могло бути збудовано натомість.",
+      "Цей онлайн-лічильник показує приблизну вартість війни Росії проти України в реальному часі: військові витрати, загиблих з обох сторін, дрони й ракети, запущені по Україні, а також те, що можна було б побудувати за ці гроші.",
+    brokenEagleAlt: "Розбитий символ російського орла",
+    deathsCandleAlt: "Поминальна свічка як символ загиблих з обох сторін",
+    launchedWeaponsAlt: "Іконка лічильника дронів і ракет",
+    builtInsteadAlt: "Іконка будинку як символ того, що Росія могла б побудувати замість війни",
     totalLabel: "ВИТРАЧЕНО НА ВІЙНУ",
     updated: "Візуально оновлюється в реальному часі",
     deathsTitleLine1: "Загиблі з обох боків",
