@@ -3,7 +3,6 @@ import { Resend } from "resend";
 
 const MAX_IDEA_LENGTH = 2000;
 const DEFAULT_RECEIVER_EMAIL = "mariaparakhina.studio@gmail.com";
-const resend = new Resend(process.env.RESEND_API_KEY);
 
 type IdeaPayload = {
   idea?: unknown;
@@ -13,6 +12,7 @@ type IdeaPayload = {
 };
 
 export async function POST(request: Request) {
+  const apiKey = process.env.RESEND_API_KEY;
   let payload: IdeaPayload;
 
   try {
@@ -48,14 +48,16 @@ export async function POST(request: Request) {
   // IDEA_RECEIVER_EMAIL=mariaparakhina.studio@gmail.com
   // RESEND_API_KEY=re_...
   console.log("Idea submission received:", submission);
-  console.log("RESEND_API_KEY exists:", Boolean(process.env.RESEND_API_KEY));
+  console.log("RESEND_API_KEY exists:", Boolean(apiKey));
 
-  if (!process.env.RESEND_API_KEY) {
+  if (!apiKey) {
     return NextResponse.json(
-      { ok: false, error: "RESEND_API_KEY is missing" },
+      { ok: false, error: "Missing RESEND_API_KEY environment variable" },
       { status: 500 }
     );
   }
+
+  const resend = new Resend(apiKey);
 
   console.log("Sending idea email to:", receiverEmail);
 
