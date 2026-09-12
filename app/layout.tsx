@@ -5,7 +5,7 @@ import "./globals.css";
 
 export const metadata: Metadata = {
   metadataBase: new URL("https://war-counter-online-realtime.vercel.app"),
-  title: "Russian War Counter — Real-Time Cost of Russia’s War in Ukraine",
+  title: "Russia War Cost Tracker 2026 | Live Spending on Ukraine War",
   description:
     "A real-time online counter showing Russia’s estimated spending on the war in Ukraine, deaths, drones and missiles launched, and what this money could have built instead.",
   icons: {
@@ -25,7 +25,7 @@ export const metadata: Metadata = {
   openGraph: {
     type: "website",
     url: "https://war-counter-online-realtime.vercel.app/",
-    title: "Russian War Counter — Real-Time Cost of Russia’s War in Ukraine",
+    title: "Russia War Cost Tracker 2026 | Live Spending on Ukraine War",
     description:
       "A real-time online counter showing Russia’s estimated spending on the war in Ukraine, deaths, drones and missiles launched, and what this money could have built instead.",
     images: [
@@ -38,7 +38,7 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: "summary_large_image",
-    title: "Russian War Counter — Real-Time Cost of Russia’s War in Ukraine",
+    title: "Russia War Cost Tracker 2026 | Live Spending on Ukraine War",
     description:
       "A real-time online counter showing Russia’s estimated spending on the war in Ukraine, deaths, drones and missiles launched, and what this money could have built instead.",
     images: ["/images/og-image.png"],
